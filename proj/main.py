@@ -50,23 +50,31 @@ def form():
 @app.route('/submit', methods=['POST'])
 def submit_form():
     #Создай переменные для сбора информации
+    global name
+    global email
+    global address
+    global date
     name = request.form['name']
     email = request.form['email']
     address = request.form['address']
     date = request.form['date']
-    with open('form.txt', 'a',) as f:
-            f.write(name,
-                    email,\
-                    address,\
-                    date) 
+    listform = [name, email, address, date]
+    MyFile=open('form.txt', 'a', encoding='utf-8')
+    for element in listform:
+        MyFile.write(element)
+        MyFile.write('\n')
+    MyFile.close()
+    print("Form.txt is created and redacted in C:/Users/yournameuser/documents")
 
-    # здесь вы можете сохранить данные или отправить их по электронной почте
+
+        # здесь вы можете сохранить данные или отправить их по электронной почте
     return render_template('form_result.html', 
-                           #Помести переменные
-                           name=name,
-                           email=email,
-                           address=address,
-                           date=date
-                           )
+                        
+        name=name,
+        email=email,
+        address=address,
+        date=date
+    )
+
 
 app.run(debug=True)
