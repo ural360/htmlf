@@ -2,6 +2,8 @@
 from flask import Flask, render_template,request, redirect
 #Подключение библиотеки баз данных
 from flask_sqlalchemy import SQLAlchemy
+from speech import speach
+
 
 
 app = Flask(__name__)
@@ -100,10 +102,20 @@ def card(id):
     return render_template('card.html', card=card)
 
 #Запуск страницы c созданием карты
-@app.route('/create')
+@app.route('/create', methods=['GET','POST'])
 def create():
     return render_template('create_card.html')
+@app.route('/voice')
+def voice():
+    try:
+        text = speach()  
+                 
+    except: 
+        text = "Мы вас не расслышали!"
 
+
+    return render_template('create_card.html', text = text)
+    
 #Форма карты
 @app.route('/form_create', methods=['GET','POST'])
 def form_create():
